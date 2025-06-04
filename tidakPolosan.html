@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Template Laporan Praktikum</title>
+        <!-- SweetAlert2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+        <!-- SweetAlert2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="stylenya.css" />
+    </head>
+
+    <body>
+        <h1>Laporan Praktikum - 03</h1>
+        <div id="alert-container"></div>
+        <form id="formData">
+            <!-- Kontainer 1 -->
+            <div class="container">
+            <div>
+                <label for="inputName">Masukkan Nama:</label>
+                <input type="text" id="inputName" placeholder="Masukkan Nama Kamu" />
+            </div>
+            <div>
+                <label for="inputNIM">Masukkan NIM:</label>
+                <input type="number" id="inputNIM" placeholder="Masukkan NIM Kamu" />
+            </div>
+            </div>
+
+            <!-- Kontainer 2 -->
+            <div class="container">
+            <div>
+                <label for="inputAsal">Masukkan Asal Kamu:</label>
+                <input type="text" id="inputAsal" placeholder="Masukkan Asal Kamu" />
+            </div>
+            <div>
+                <label for="selectDosen">Pilih Dosen Favorit:</label>
+                <select id="selectDosen">
+                <option selected disabled>Pilih salah satu</option>
+                <option value="Pak Agus Mulyanto">Pak Agus Mulyanto</option>
+                <option value="Bu Yuni Roza">Bu Yuni Roza</option>
+                <option value="Bu Yessy Asri">Bu Yessy Asri</option>
+                </select>
+            </div>
+            <div>
+                <label for="inputTanggalLahir">Pilih Tanggal Lahir anda:</label>
+                <input type="date" id="inputTanggalLahir" />
+            </div>
+            </div>
+
+            <!-- Kontainer 3 -->
+            <div class="container">
+                <div>
+                    <label style="text-align: center;"><b>Tulis Hal Favorit Kamu:</b></label>
+                </div>
+                <div>
+                    <label for="inputTemanFavorit">Masukkan Nama Teman Favorit:</label>
+                    <input type="text" id="inputTemanFavorit" placeholder="Contoh: Budi" />
+                </div>
+                <div>
+                    <label for="inputAiFavorit">Masukkan AI Favorit:</label>
+                    <input type="text" id="inputAiFavorit" placeholder="Contoh: ChatGPT" />
+                </div>
+            </div>
+
+            <!-- Tombol -->
+            <div>
+                <button class="tombol" type="submit">Kirim</button>
+            </div>
+        </form>
+
+        <!-- Script -->
+        <script>    
+            function tambahAlert(pesan) {
+                const alertContainer = document.getElementById("alert-container");
+
+                const alertDiv = document.createElement("div");
+                alertDiv.className = "custom-alert";
+                alertDiv.innerHTML = `
+                    ${pesan}
+                    <button class="close-btn" onclick="this.parentElement.remove()">×</button>
+                `;
+
+                alertContainer.appendChild(alertDiv);
+            }
+
+            document.getElementById("formData").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                // Kosongkan alert sebelumnya
+                document.getElementById("alert-container").innerHTML = "";
+
+                const nama = document.getElementById("inputName").value.trim();
+                const nim = document.getElementById("inputNIM").value.trim();
+                const asal = document.getElementById("inputAsal").value.trim();
+                const dosen = document.getElementById("selectDosen").value;
+                const tanggal = document.getElementById("inputTanggalLahir").value;
+                const teman = document.getElementById("inputTemanFavorit").value.trim();
+                const ai = document.getElementById("inputAiFavorit").value.trim();
+
+                let adaError = false;
+
+                if (!nama) {
+                    tambahAlert("Nama belum diisi");
+                    adaError = true;
+                }
+                if (!nim) {
+                    tambahAlert("NIM belum diisi");
+                    adaError = true;
+                }
+                if (!asal) {
+                    tambahAlert("Asal belum diisi");
+                    adaError = true;
+                }
+                if (!dosen || dosen === "Pilih salah satu") {
+                    tambahAlert("Dosen belum dipilih");
+                    adaError = true;
+                }
+                if (!tanggal) {
+                    tambahAlert("Tanggal lahir belum diisi");
+                    adaError = true;
+                }
+                if (!teman) {
+                    tambahAlert("Nama teman favorit belum diisi");
+                    adaError = true;
+                }
+                if (!ai) {
+                    tambahAlert("AI favorit belum diisi");
+                    adaError = true;
+                }
+
+                if (adaError) return;
+
+                // Jika tidak ada error, tampilkan data berurutan dengan Swal
+                Swal.fire({
+                    title: 'Nama Kamu :',
+                    html: `<b>Nama:</b> ${nama}`,
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    return Swal.fire({
+                        title: 'NIM Kamu :',
+                        html: `<b>NIM:</b> ${nim}`,
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                    });
+                }).then(() => {
+                    return Swal.fire({
+                        title: 'Asal Kamu :',
+                        html: `<b>Asal:</b> ${asal}`,
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                    });
+                }).then(() => {
+                    return Swal.fire({
+                        title: 'Dosen Favorit :',
+                        html: `<b>Dosen:</b> ${dosen}`,
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                    });
+                }).then(() => {
+                    return Swal.fire({
+                        title: 'Tanggal Lahir Kamu :',
+                        html: `<b>Tanggal:</b> ${tanggal}`,
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                    });
+                }).then(() => {
+                    return Swal.fire({
+                        title: 'Teman Favorit :',
+                        html: `<b>Nama:</b> ${teman}`,
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                    });
+                }).then(() => {
+                    return Swal.fire({
+                        title: 'AI Favorit :',
+                        html: `<b>AI:</b> ${ai}`,
+                        icon: 'info',
+                        confirmButtonText: 'Selesai'
+                    });
+                });
+            });
+
+        </script>
+
+    </body>
+
+</html>
